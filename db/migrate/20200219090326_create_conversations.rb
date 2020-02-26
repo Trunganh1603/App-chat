@@ -3,7 +3,7 @@ class CreateConversations < ActiveRecord::Migration[6.0]
     create_table :conversations do |t|
       t.string	:messenger
       t.json	:image
-      t.integer	:role
+      t.integer	:role,null: false, default: 0
       
       t.references :roomable, polymorphic: true
 

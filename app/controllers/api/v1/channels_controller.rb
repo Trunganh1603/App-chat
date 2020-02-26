@@ -17,18 +17,6 @@ module Api
 				json_success(authorize_channel, serializer, :created )
 			end
 
-			def add_user
-				# Xac dinh thang user duoc add vao co ton tai khong
-				# Nguoi duoc quyen add vao channel : 2TH
-				# TH1: Minh cho phep bat cu user nao trong channel deu dc phep add user khac vao
-				# TH2: current_user.owned_channels.find_by_id :channel_id -> tim thay thi add user vao
-				# TH2: Channel.find_by_id: :channel_id -> 
-
-				# Tim ra channel dang duoc su dung de add 
-				# channel -> Tao channel_users voi channel_id la channel hien tai va user_id la user duoc add vao
-			end
-
-
 			def update
 				service.update(writing_params)
 				json_success(authorize_channel, serializer)
@@ -40,6 +28,21 @@ module Api
 				service.destroy
 				json_success(channel_serializer, serializer, :ok)
 			end
+
+			def add_user
+				@channel.channels_users.create!(user_id: params[:user_id])
+				json_success(authorize_channel, serializer, :created)
+
+				# Xac dinh thang user duoc add vao co ton tai khong
+				# Nguoi duoc quyen add vao channel : 2TH
+				# TH1: Minh cho phep bat cu user nao trong channel deu dc phep add user khac vao
+				# TH2: current_user.owned_channels.find_by_id :channel_id -> tim thay thi add user vao
+				# TH2: Channel.find_by_id: :channel_id -> 
+
+				# Tim ra channel dang duoc su dung de add 
+				# channel -> Tao channel_users voi channel_id la channel hien tai va user_id la user duoc add vao
+			end
+
 
 			private
 
@@ -54,9 +57,12 @@ module Api
 								reverse_scope.
                       			ransack_query(query_params, page)
 				when :update, :destroy
-					@channel = current_user.find(params[:id])
+				
+					@channel = Channel.find(params[:id])
 				when :show
 					@channel = collection.find(params[:channael_id])
+				when :add_user
+					@channel = Channel.find(params[:id])
 				end	
 			end
 
@@ -64,7 +70,7 @@ module Api
 		        params.require(:channel).permit(
 		          :id,
 		          :name,
-		          :owner_id,
+		          :user_id,
 		          :parent_id,
 		          :status,
 		          :role,
@@ -88,7 +94,11 @@ module Api
       		end
 
 			def collection
-        		Channel.includes(:user)
+        		Channel.includes(:owner)
+      		end
+
+      		def serializer_channels_user
+      			Api::V1::ChannelsUserSerializer
       		end
 
       		def serializer

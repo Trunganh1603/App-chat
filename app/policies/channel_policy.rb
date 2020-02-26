@@ -22,6 +22,11 @@ class ChannelPolicy < ApplicationPolicy
 		Regular.new(record)
 	end
 
+	def add_user?
+		raise CustomErrors::PermissionError unless author_permission?
+		Regular.new(record)
+	end
+
 	def destroy?
 		raise_error_if_unauthorize!
 		
@@ -60,6 +65,6 @@ class ChannelPolicy < ApplicationPolicy
 	private	
 
 	def author_permission? 
-		user.admin? || user.channel.where(id: record.id).exists?
+		user.admin? || user.owned_channels.where(id: record.id).exists?
 	end
 end

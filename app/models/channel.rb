@@ -30,7 +30,9 @@ class Channel < ApplicationRecord
    		belongs_to :owner, class_name: 'User', foreign_key: 'user_id', inverse_of: 'owned_channels'
    		has_many :channels_users, inverse_of: :channel
    		has_many :users, through: :channels_users, source: :user
-   		enum	role: [
+   		has_many :conversations, as: :roomable
+   	#authorize
+   	enum	role: [
 		  		:member,
 		  		:admin
 		].freeze

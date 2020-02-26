@@ -22,4 +22,10 @@ class User < ApplicationRecord
    		has_many :owned_channels, foreign_key: 'user_id', class_name: 'Channel', inverse_of: :owner
    		has_many :channels_users,  inverse_of: :user
    		has_many :channels, through: :channels_users, source: :channel
+   		has_many :conversations, as: :roomable
+
+         enum  role: [
+            :member,
+            :admin
+         ].freeze
 end

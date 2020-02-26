@@ -5,7 +5,7 @@
 #  id            :bigint           not null, primary key
 #  image         :json
 #  messenger     :string
-#  role          :integer
+#  role          :integer          default("many"), not null
 #  roomable_type :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

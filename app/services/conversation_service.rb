@@ -1,5 +1,5 @@
 class ConversationService
-  def initialize(Conversation)
+  def initialize(conversation)
     @conversation = conversation
   end
 
@@ -22,6 +22,6 @@ class ConversationService
   attr_accessor :conversation
 
   def record
-    concersation.record
+    conversation.record
   end
 end

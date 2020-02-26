@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
-  resources :conversations
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  	scope :api do
-      scope :v1 do
-            post 'auth/register', to: 'api/v1/users#register'
-            post 'auth/login', to: 'api/v1/users#login'
-  			resources :channels, module: 'api/v1'
-  			resources :conversations, module: 'apiv1'
+  	namespace   :api do
+      namespace :v1 do
+            post 'auth/register', to: 'users#register'
+            post 'auth/login', to: 'users#login'
+  			resources :channels,  only: %i(index create update show destroy) do
+          collection do
+            post 'adduser', to: 'channels#add_user'
+          end
+        end 
+  			resources :conversations,  only: %i(index create show destroy)
   		end
   	end
 end

@@ -14,9 +14,9 @@ class ChannelService
   end
 
   def destroy
-    record.destroy!
+      record.destroy!
   end
-
+  
   private
 
   attr_accessor :channel
