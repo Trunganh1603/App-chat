@@ -33,7 +33,7 @@ gem 'carrierwave-imageoptimizer', '~> 1.4.0'
 gem 'mini_magick', '~> 4.9.3'
 gem 'carrierwave-base64', '~> 2.8.0'
 # Pagination
-gem 'kaminari', '1.1.1'
+gem 'kaminari', '1.2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
